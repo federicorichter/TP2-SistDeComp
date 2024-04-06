@@ -7,7 +7,7 @@ libfactorial = ctypes.CDLL('./libfactorial.so')
 libfactorial.calculator.argtypes = (ctypes.POINTER(ctypes.c_float),ctypes.c_int,)
 
 # Definimos el tipo del retorno de la función factorial
-libfactorial.calculator.restype = ctypes.c_ulonglong
+libfactorial.calculator.restype = ctypes.c_int
 
 # Creamos nuestra función factorial en Python
 # hace de Wrapper para llamar a la función de C

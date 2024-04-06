@@ -15,15 +15,18 @@ try:
 
     for item in data[1]:  
     	country_name = item["country"]["value"]
-    	if country_name == "Argentina":
-    		index_argentina.append(item["value"])
+    	if (country_name == "Argentina") :
+    		if item["value"] == None:
+    			index_argentina.append(0.0)
+    		else:
+    			index_argentina.append(item["value"])
     		count = count + 1
     	indicator_value = item["value"]
     	year = item["date"]
-    	#print(f"Country: {country_name}, Year: {year}, GINI Index: {indicator_value}")
 
     print(f"Argentina GINI Index in : {index_argentina[0]}")
-    print(calculator(index_argentina))
+    print(index_argentina)
+    res = calculator(index_argentina)
 
 
 except requests.RequestException as e:
