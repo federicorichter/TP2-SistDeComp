@@ -3,7 +3,7 @@ from calculator import calculator
 import random
 
 class TestFunciones(unittest.TestCase):
-    def test_funcion_a_testear(self):
+    def test_calculator(self):
         arr = []
         arr_truncated = []
         for _ in range(10):

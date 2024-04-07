@@ -1,7 +1,7 @@
 import ctypes
 
 # Cargamos la libreria 
-libfactorial = ctypes.CDLL('./libfactorial.so')
+libfactorial = ctypes.CDLL('./libIntConverter.so')
 
 # Definimos los tipos de los argumentos de la función factorial
 libfactorial.calculator.argtypes = (ctypes.POINTER(ctypes.c_float),ctypes.c_int,)

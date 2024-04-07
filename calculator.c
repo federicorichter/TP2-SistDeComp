@@ -3,6 +3,7 @@
 
 int* calculator(float arr[], int size)
 {
+	
 	int* arrInt = malloc(size * sizeof(int));
 	if (arrInt == NULL) {
 		printf("Error: No se pudo asignar memoria.\n");
