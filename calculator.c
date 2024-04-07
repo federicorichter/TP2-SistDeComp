@@ -13,6 +13,6 @@ int* calculator(float arr[], int size)
 	{
 		arrInt[i] = (int)arr[i] +1;
 	}
-	
+
 	return arrInt;
 }
