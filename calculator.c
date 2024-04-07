@@ -1,11 +1,18 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int calculator(float arr[], int size)
+int* calculator(float arr[], int size)
 {
-	for(int i = 0;i < size; i++)
-	{
-		printf("Indice de GINI %f \n", arr[i]);
+	int* arrInt = malloc(size * sizeof(int));
+	if (arrInt == NULL) {
+		printf("Error: No se pudo asignar memoria.\n");
+		return NULL;
 	}
 
-	return 0;
+	for (int i = 0; i < size; i++)
+	{
+		arrInt[i] = (int)arr[i] +1;
+	}
+	
+	return arrInt;
 }
