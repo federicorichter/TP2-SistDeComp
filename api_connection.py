@@ -40,8 +40,12 @@ def fetch_data():
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
 
-start_time = timeit.default_timer()
-fetch_data()
-end_time = timeit.default_timer()
+execution_times = []
+for _ in range(1000):
+    start_time = timeit.default_timer()
+    fetch_data()
+    execution_time = timeit.default_timer() - start_time
+    execution_times.append(execution_time)
 
-print(f"Tiempo de ejecución: {end_time - start_time} segundos")
+average_time = sum(execution_times) / len(execution_times)
+print(f"Promedio de tiempo de ejecución: {average_time} segundos")
