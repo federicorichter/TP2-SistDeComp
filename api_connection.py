@@ -1,5 +1,6 @@
 import requests
 from calculator import calculator
+import timeit
 
 import matplotlib.pyplot as plt
 
@@ -39,4 +40,8 @@ def fetch_data():
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
 
+start_time = timeit.default_timer()
 fetch_data()
+end_time = timeit.default_timer()
+
+print(f"Tiempo de ejecución: {end_time - start_time} segundos")
