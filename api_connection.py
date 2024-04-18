@@ -31,17 +31,23 @@ def fetch_data():
         res = calculator(index_argentina)
         print(f"Argentina GINI Index luego del calculo en C: ")
         print(res)
-        plt.plot(res)
-        plt.xlabel('Year')
-        plt.ylabel('GINI Index')
-        plt.title('Argentina GINI Index over Time')
-        plt.show()
+        #plt.plot(res)
+        #plt.xlabel('Year')
+        #plt.ylabel('GINI Index')
+        #plt.title('Argentina GINI Index over Time')
+        #plt.show()
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
 
-start_time = timeit.default_timer()
-fetch_data()
-end_time = timeit.default_timer()
 
-print(f"Tiempo de ejecución: {end_time - start_time} segundos")
+
+execution_times = []
+for _ in range(1000):
+    start_time = timeit.default_timer()
+    fetch_data()
+    execution_time = timeit.default_timer() - start_time
+    execution_times.append(execution_time)
+
+average_time = sum(execution_times) / len(execution_times)
+print(f"Promedio de tiempo de ejecución: {average_time} segundos")
