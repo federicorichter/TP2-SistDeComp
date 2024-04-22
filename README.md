@@ -214,6 +214,12 @@ En esta segunda parte embeberemos código assembler en nuestra función escrita 
      ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/cd8fbf08-fbaf-4246-9b16-3aae7da45929)
      Ya en la última imagen vemos el contexto de ejecución que se tenía previo a la llamada de la función.
 
+### Tiempo total con las dos formas
+
+Luego de realizar las conversiones de flotantes a enteros con distintos modos (1000 pruebas), estos son los resultados :
+ - Python: 0.34739 [s]
+ - C : 0.35356 [s]
+ - Usando ASM : 0.332 [s] 
 
 
 
