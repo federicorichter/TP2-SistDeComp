@@ -161,3 +161,53 @@ class TestFunciones(unittest.TestCase):
         self.assertEqual(compare, resultado)
 ```
 
+## Parte 2 usando assembler
+En esta segunda parte embeberemos código assembler en nuestra función escrita en C para convertir los elementos del array de flotantes en enteros y guardarlos en un nuevo array sumándoles 1 a cada uno de los valores.
+
+- Paso 1
+  En este primer paso se ven inicializados los valores ECX en 0 además de toda la ejecución previa de instrucciones de guardado de contexto y guardado de memoria en la pila. Luego vemos que el puntero de instrucción nos indica el uso de la instrucción movss para mover desde rdx (registro donde se guarda el primer parámetro pasado a la función en C que en nuestro caso es el array de flotantes) el elemento apuntado por ECX (el elemento 0 en la primera iteración) a xmm0 (registro del coprocesador matemático).   
+  ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/9b1e869e-7493-48f0-b5e2-8ed745fde4e1)
+
+- Paso 2
+  Luego con la instrucción cvttsi convertimos a entero de 4 bytes el valor que se encuentra en xmm0 y se guarda en EAX
+  ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/b2273902-9144-4eb2-bc80-c9afc15c986c)
+
+- Paso 3
+  En este tercer paso se le suma 1 al valor de EAX con el uso de la instrucción add
+  ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/720f6464-e442-4554-a414-9067b7251b53)
+
+- Paso 4
+  Luego de esto se guarda el valor de EAX en el arreglo al que apunta rsi accediendo al elemento apuntado por rcx, multiplicando este valor por 4 (ya que asumimos enteros de y flotantes de 4 bytes).
+  ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/e01b3b17-461e-4d28-84cb-88b2bed3ddf9)
+
+  - Paso 5
+    En este paso se suma 1 al valor del registro utilizado como contador e índice ecx
+    ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/3f470f81-dad2-4287-9d04-a34c16e1992f)
+
+  - Paso 6
+    Se ejecuta la instrucción cmp (compare) que ejecuta una resta sin guardar el resultado entre el registro edi (size del array y segundo parámetro pasado a la función) y el valor de nuestro contador ecx. Como edi > ecx, la resta nos da negativa, haciendo que se ejcute la instrucción siguiente y se levante la flag de Sign en el registro eflags (en el siguiente paso ya se ve).
+    ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/92507f6c-aff6-454e-a7b7-a2d36c6907de)
+
+  - Paso 7
+    Como la instrucción cmp nos indica que se ejecutará la instrucción siguiente, realizamos esta, la cual consiste en saltar a la primera línea del loop que se esta ejecutando cambiando el puntero de instrucción.
+    ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/dfa6b622-30d0-4be1-83d9-a7884b0d6b47)
+
+  - Paso 8
+    Vemos que se reinicia el loop con el valor incrementado de rcx
+    ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/bec7506e-73d3-4e56-850a-c35d2731a929)
+
+   - Paso 9 (finalización del loop)
+     Luego de 10 iteraciones vemos que el valor de rcx es 10, por lo que ahora la instrucción cmp indica al procesador que saltee la siguiente instrucción y vaya directo a las instrucciones de leave y ret, las cuales se encargan de liberar espacio en la pila (vemos que el stack pointer que es rsp aumenta)
+
+     ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/09a78bbc-37d9-4a22-82c5-3b88a32b5d8a)
+     ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/15ed83e4-d9ad-45cc-90da-3fb476ee8267)
+     ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/cd8fbf08-fbaf-4246-9b16-3aae7da45929)
+     Ya en la última imagen vemos el contexto de ejecución que se tenía previo a la llamada de la función.
+
+
+
+
+
+
+
+
