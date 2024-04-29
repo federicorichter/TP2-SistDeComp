@@ -18,9 +18,9 @@ def fetch_data():
         for item in data[1]:
             country_name = item["country"]["value"]
             if country_name == "Argentina":
-                if item["value"] == None:
-                    index_argentina.append(0.0)
-                else:
+                if item["value"] != None:
+                    #index_argentina.append(0.0)
+                #else:
                     index_argentina.append(item["value"])
                     count = count + 1
             indicator_value = item["value"]
@@ -31,7 +31,8 @@ def fetch_data():
         res = calculator(index_argentina)
         print(f"Argentina GINI Index luego del calculo en C: ")
         print(res)
-        plt.plot(res)
+        plt.plot(res,'o-')
+        plt.plot(index_argentina,'o-')
         plt.xlabel('Year')
         plt.ylabel('GINI Index')
         plt.title('Argentina GINI Index over Time')
