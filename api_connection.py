@@ -14,6 +14,7 @@ def fetch_data():
         data = response.json()
         count = 0
         index_argentina = []
+        year_arg = []
 
         for item in data[1]:
             country_name = item["country"]["value"]
@@ -21,21 +22,19 @@ def fetch_data():
                 if item["value"] != None:
                     #index_argentina.append(0.0)
                 #else:
-                    index_argentina.append(item["value"])
+                    index_argentina.insert(0,item["value"])
+                    year_arg.insert(0,item["date"])
                     count = count + 1
-            indicator_value = item["value"]
-            year = item["date"]
-
         print(f"Argentina GINI Index antes del calculo en C:")
         print(index_argentina)
         res = calculator(index_argentina)
         print(f"Argentina GINI Index luego del calculo en C: ")
         print(res)
-        plt.plot(res,'o-')
-        plt.plot(index_argentina,'o-')
+        plt.plot(year_arg,res,'o-')
+        plt.plot(year_arg,index_argentina,'o-')
         plt.xlabel('Year')
         plt.ylabel('GINI Index')
-        plt.title('Argentina GINI Index over Time')
+        plt.title('Indice GINI en Argentina')
         plt.show()
 
     except requests.RequestException as e:
