@@ -235,8 +235,60 @@ __asm__ (
 Luego de realizar las conversiones de flotantes a enteros con distintos modos (1000 pruebas), estos son los resultados :
  - Python: 0.34739 [s]
  - C : 0.35356 [s]
- - Usando ASM : 0.332 [s] 
+ - Usando ASM : 0.332 [s]
 
+## Sin usar assembler in line
+Luego de revisar la convención de llamada en arquitecturas de 64 bits a la hora de pasar flotantes como argumentos en las funciones, llegamos a la conclusión de que para referenciar elementos que se pasan como argumentos desde el stack debíamos pasar 8 argumentos flotantes (ya que se pasan en los registros xmm0-xmm7) y luego el 9no argumento se pasará a través del stack. Ahora sí, desde nuestra función escrita en ASM podemos utilizar el base pointer y agregarle 16 para acceder al elemento flotante pasado como argumento. 
+
+```C
+#include <stdio.h>
+#include <stdlib.h>
+
+extern int float_to_int_asm(float value1,float value2,float value3,float value4,float value5,float value6,float value7,float value8,float value);
+
+int* calculator_C(float arr[], int size)
+{
+    int* arrInt = malloc(size * sizeof(int));
+
+    if (arrInt == NULL) {
+        printf("Error: No se pudo asignar memoria.\n");
+        return NULL;
+    }
+
+    for(int i = 0;i < size; i++)
+    {
+        int convertedValue ;
+        float aux = arr[i];
+        convertedValue = float_to_int_asm(7.3,8.5,4.5,9.6,55.6,4.8,123.5,4.6,aux);
+        arrInt[i] = convertedValue;
+    }
+
+    return arrInt;
+}
+```
+
+Vemos que ahora se le pasan 8 argumentos 'dummy', es decir, sin valor relevante para que el último (aux) pueda ser referenciado desde una posición en el stack.
+
+```C
+section .text
+global float_to_int_asm
+
+; Input:
+;   xmm0: Single-precision floating-point value
+; Output:
+;   eax: Integer value
+
+float_to_int_asm:
+    push rbp
+    mov rbp, rsp
+    movss   xmm0, [rbp + 16]
+    cvttss2si eax, xmm0      ; Convert single-precision float to integer
+    add eax, 1
+    leave
+    ret                        ; Return
+
+```
+En esta función de ASM vemosque movemos al registro xmm0 (de la FPU) el valor guardado en rbp + 16, ya que, la dirección de retorno es de 8 bytes y el argumento flotante también.
 
 
 
