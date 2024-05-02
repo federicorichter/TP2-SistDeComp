@@ -290,8 +290,29 @@ float_to_int_asm:
 ```
 En esta función de ASM vemosque movemos al registro xmm0 (de la FPU) el valor guardado en rbp + 16, ya que, la dirección de retorno es de 8 bytes y el argumento flotante también.
 
+### Debugging con GDB
+Colocamos un break point en la llamada a la función float_to_int_asm para ir chequeando el valor de los registros antes, durante y luego de la ejecución sobre cada uno de los valores del array de flotantes. 
 
+Comenzamos generando un breakpoint a la altura de la función de assembler
 
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/6fdc7fa0-d6e8-4b02-ba95-cb050e397455)
+
+Luego iremos iterando paso a paso con ayuda del comando step para luego visualizar los registros utilizando el comando info registers, además de poder ver los últimos 10 elementos de la pila utilizando el comando x/10x $sp.
+Vemos en la primera iteración que los registros estan cargados con elementos que no son de nuestro interés, como por ejemplo el rax:
+
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/0976c157-1bd4-44f3-af23-6e3f987267ca)
+
+Tanto el puntero de pila como el de base se encuentran referenciando al mismo lugar, luego utilizando el comando step ingresamos dentro de la función y chequeamos los valores de los registros cuando se vuelve a salir:
+
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/22dd785d-f212-4051-944d-b9da98490c52)
+
+Vemos en esta imagen los últimos elementos agregados al stack, y el que nos resulta de especial interés es el que se encuentra en la posición 0x7fffffffddd0, ya que, en nuestro ejemplo el argumento pasado a la función es 10.1, y si pasamos de su representación hexadecimal el número flotante 0x4121999a a decimal, veremos que en efecto simboliza 10.1:
+
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/84fc1a17-1d5d-4373-b431-730c9b416d00)
+
+Es por esto que luego, podemos chequear los registros y veremos el nuevo valor guardado en rax, además de que los valores de rbp y rsp han cambiado:
+
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/7b09e4dd-8dfa-4652-b291-da753f8ad6eb)
 
 
 
