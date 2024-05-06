@@ -314,5 +314,18 @@ Es por esto que luego, podemos chequear los registros y veremos el nuevo valor g
 
 ![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/7b09e4dd-8dfa-4652-b291-da753f8ad6eb)
 
+### Muestra de dirección de retorno
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/1a357dae-9d1b-4315-b498-67885a686b3c)
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/bc16faea-ee23-4faa-9587-a2004399d175)
+
+Podemos ver los valores de las posiciones de memoria donde se vienen ejecutando las instrucciones hasta que llega el comando call <float_to_int_asm>, luego veremos que quedará guardada la dirección de retorno una vez dentro del stack. Usando GDB Dashbord es fácil darse cuenta:
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/5264b21f-ae4b-4bfd-907b-2270cef19fb3)
+
+Vemos que la dirección de retorno se guarda en 0x7fffffffddc0, y que es 0x0000555555555234.
+
+![image](https://github.com/federicorichter/TP2-SistDeComp/assets/82000054/e73e7381-1728-4125-9f70-9dc8f9777597)
+De vuelta en Calculator_C y con el valor correspondiente de EIP.
+
+
 
 
